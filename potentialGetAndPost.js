@@ -1,6 +1,6 @@
+//import database from dbhelpers file (currently non-existent)
 
-
-GET FUNCTION (controller)
+//GET FUNCTION (controller)
 
 getRatings: (req, res) => {
   let id = req.params.id;
@@ -15,10 +15,11 @@ getRatings: (req, res) => {
   .catch(err => res.status(404).send("Error getting review ratings))
 }
 
-GET FUNCTION (dbhelper)
+//GET FUNCTION (dbhelper)
+                                     
 getRatings: (id) => database.find({ product_serial})
 
-POST FUNCTION (controller)
+//POST FUNCTION (controller)
 
 postReview: (req, res) => {
   let obj = {
@@ -38,7 +39,7 @@ postReview: (req, res) => {
   .catch(err => res.status(404).send("Error posting review")
 }
 
-POST FUNCTION (dbhelper)
+//POST FUNCTION (dbhelper)
 
 postReview: (obj) => {
   database.findOneAndUpdate(
