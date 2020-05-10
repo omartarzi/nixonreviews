@@ -1,34 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
+import StarRatings from 'react-star-ratings';
 import { Container, Row, Col } from 'react-grid-system';
-import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faStar } from '@fortawesome/free-solid-svg-icons'; //solid heart, solid star
 //import { fasHeart } from '@fortawesome/free-regular-core-icons';
 //open heart
 //open flag
 import { faFlag } from '@fortawesome/free-solid-svg-icons';//solid flag
-
-const StarRatingsSprite = styled.div`
-    background: url("star-rating-sprite.png") repeat-x;
-    font-size: 0;
-    height: 21px;
-    line-height: 0;
-    overflow: hidden;
-    text-indent: -999em;
-    width: 110px;
-    margin: 0 auto;
-
-    > span {
-        background: url("star-rating-sprite.png") repeat-x;
-        background-position: 0 100%;
-        float: left;
-        height: 21px;
-        display:block;
-    }
-`;
-
 
 /*
   <FontAwesomeIcon icon={faHeart}/>
@@ -50,7 +30,7 @@ class RatingRank extends React.Component {
   }
 
   formatRating(val) {
-    return new Intl.NumberFormat('en-IN', {
+    return new Intl.NumberFormat('en-US', {
         style: 'decimal',
         minimumFractionDigits: 1
     }).format(val);
@@ -76,7 +56,11 @@ class RatingRank extends React.Component {
                     <div class="ratingBar">
                         <div class="overallRating">
                             <div>{this.formatRating(this.state.reviewStats.overallRating)}</div>
-                            <StarRatingsSprite><span style={{width: String(this.state.reviewStats.overallRating * 100 / 5) + '%'}}></span></StarRatingsSprite>
+                            <StarRatings
+                                rating={this.state.reviewStats.overallRating}
+                                starDimension="40px"
+                                starSpacing="15px"
+                            />
                         <div>{{this.state.reviewStats.ratingCount}} Ratings</div>
                         <br></br>
             			<button

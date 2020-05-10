@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 import styled from 'styled-components';
+import StarRatings from 'react-star-ratings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'; //close icon, info
 
@@ -31,6 +32,16 @@ class WriteReview extends React.Component {
         review: {
             ...this.state.review,
             [field]: event.target.value
+        }
+    });
+  }
+
+  handleChangeRating(newRating, field) {
+    this.setState({
+        ...this.state,
+        review: {
+            ...this.state.review,
+            [field]: newRating
         }
     });
   }
@@ -78,7 +89,13 @@ class WriteReview extends React.Component {
             </Row>
             <Row>
                 <Col sm={12}>
-                    TODO
+                    <StarRatings
+                        rating={this.state.review.rating}
+                        starRatedColor="black"
+                        changeRating={this.handleChangeRating}
+                        numberOfStars={5}
+                        name='rating'
+                    />
                 </Col>
             </Row>
             <Row>
