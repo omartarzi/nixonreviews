@@ -106,7 +106,10 @@ export default class App extends React.Component {
         }, 0);
         currentCount += response.data.reviews.length;
         this.setState({
-            reviewsPages[String(page)]: response.data.reviews,
+            reviewsPages: {
+                ...this.state.reviewsPages,
+                [String(page)]: response.data.reviews,
+            },
             totalReviews: response.data.total,
             hasMoreReviews: (response.data.total > currentCount)
         });
@@ -135,17 +138,19 @@ export default class App extends React.Component {
         >
             {Object.keys(this.state.reviewsPages).map(pageNum => {
                 return (
-                    {this.state.reviewsPages[pageNum].map(review => {
+                    this.state.reviewsPages[pageNum].map(review => {
                         return (
-                            <RatingReview review="review"></RatingReview>
-                            <br></br>
-                            <RatingActions review="review"
-                                toggleLike={() => this.toggleLike(review)}
-                                toggleDislike={() => this.toggleDislike(review)}
-                                flagReview={() => this.flagReview(review)}
-                                ></RatingActions>
+                            <>
+                                <RatingReview review="review"></RatingReview>
+                                <br/>
+                                <RatingActions review="review"
+                                    toggleLike={() => this.toggleLike(review)}
+                                    toggleDislike={() => this.toggleDislike(review)}
+                                    flagReview={() => this.flagReview(review)}
+                                    ></RatingActions>
+                            </>
                         );
-                    })}
+                    })
                 );
             })}
         </InfiniteScroll>
