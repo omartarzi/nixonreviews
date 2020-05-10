@@ -5,6 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 export default class App extends React.Component {
   constructor(props) {
     super(props)
+    this.productid = 0;
     this.state = {
         hasMoreReviews: false,
         reviewsPages: {},
@@ -16,16 +17,18 @@ export default class App extends React.Component {
 
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // Get the product data for the product we're reviewing,
     // ideally this ID will come from the current route,
     // e.g. if your route is /review/:id
     // Then you get the parameter like this:  this.props.match.params.id
-    await this.getProduct(1);
+    this.productid = 1;
+    await this.getProduct();
+    await this.getRankings();
   }
 
-  async getProduct(id) {
-    return axios.get("/product/" + String(id))
+  async getProduct() {
+    return axios.get("/product/" + String(this.productid))
     .then(response => {
         this.setState({
             product: response.data.product
@@ -36,8 +39,21 @@ export default class App extends React.Component {
     });
   }
 
+  async getRankings() {
+    return axios.get("/rankings/" + String(this.productid))
+    .then(response => {
+        this.setState({
+            totalReviews: response.data.total,
+            rankings: response.data.rankings
+        });
+    })
+    .catch(err => {
+        console.log("Error loading product", err);
+    });
+  }
+
   async nextPage(page) {
-    return axios.get("/reviews", {
+    return axios.get("/reviews/" + String(this.state.productid), {
         params: {
             page: page
         }
@@ -63,7 +79,7 @@ export default class App extends React.Component {
       <div>
       <h1 className="header">Reviews</h1>
       <hr className="blackLine"></hr>
-      <RatingRank product="this.state.product"></RatingRank>
+      <RatingRank product={this.state.product} rankings={this.state.rankings}></RatingRank>
         <br></br>
         <div className="filtersBar">
           Filters

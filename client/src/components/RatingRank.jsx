@@ -55,13 +55,13 @@ class RatingRank extends React.Component {
                 <Col sm={4}>
                     <div class="ratingBar">
                         <div class="overallRating">
-                            <div>{this.formatRating(this.state.reviewStats.overallRating)}</div>
+                            <div>{this.formatRating(this.props.rankings.overallRating)}</div>
                             <StarRatings
-                                rating={this.state.reviewStats.overallRating}
+                                rating={this.props.rankings.overallRating}
                                 starDimension="40px"
                                 starSpacing="15px"
                             />
-                        <div>{{this.state.reviewStats.ratingCount}} Ratings</div>
+                        <div>{{this.props.rankings.total}} Ratings</div>
                         <br></br>
             			<button
             				type='button'
@@ -78,8 +78,8 @@ class RatingRank extends React.Component {
                     </div>
                 </Col>
                 <Col sm={4}>
-                    <div style={{"text-align": "center"}}>{this.state.reviewStats.ratingBreakdowns.reduce((total, breakdown) => total + breakdown.count, 0)} Ratings</div>
-                    {this.state.review.ratingBreakdowns.map(breakdown => {
+                    <div style={{"text-align": "center"}}>{this.props.rankings.total} Ratings</div>
+                    {this.props.rankings.breakdowns.map(breakdown => {
                         return (
                             <div>
                                 <FontAwesomeIcon icon={faStar} />

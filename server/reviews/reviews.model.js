@@ -18,7 +18,9 @@ const reviewsSchema = new mongoose.Schema({
   image: String
 });
 
-// const reviews = mongoose.model("Reviews", reviewsSchema);
+const model = mongoose.model("Reviews", reviewsSchema);
 
-
-module.exports = reviewsSchema;
+// Can add other helper functions here if desired
+module.exports = {
+    model: model
+};
