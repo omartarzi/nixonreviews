@@ -1,23 +1,15 @@
 import React from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons'; //solid heart
-//import { fasHeart } from '@fortawesome/free-regular-core-icons';
-//open heart
-//open flag
-import { faFlag } from '@fortawesome/free-solid-svg-icons';//solid flag
-
-
-/*
-  <FontAwesomeIcon icon={faHeart}/>
-  <FontAwesomeIcon icon={faFlag}/>
-*/
+import InfiniteScroll from 'react-infinite-scroller';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
+        hasMoreReviews: false,
+        reviewsPages: {},
+        totalReviews: 0,
+        product: null
     }
 
     //bind functions here
@@ -25,7 +17,45 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    // Get the product data for the product we're reviewing,
+    // ideally this ID will come from the current route,
+    // e.g. if your route is /review/:id
+    // Then you get the parameter like this:  this.props.match.params.id
+    await this.getProduct(1);
+  }
 
+  async getProduct(id) {
+    return axios.get("/product/" + String(id))
+    .then(response => {
+        this.setState({
+            product: response.data.product
+        });
+    })
+    .catch(err => {
+        console.log("Error loading product", err);
+    });
+  }
+
+  async nextPage(page) {
+    return axios.get("/reviews", {
+        params: {
+            page: page
+        }
+    })
+    .then(response => {
+        let currentCount = Object.keys(this.state.reviewsPages).reduce((total, pageNum) => {
+            return this.state.reviewsPages[pageNum].length;
+        }, 0);
+        currentCount += response.data.reviews.length;
+        this.setState({
+            reviewsPages[String(page)]: response.data.reviews,
+            totalReviews: response.data.total,
+            hasMoreReviews: (response.data.total > currentCount)
+        });
+    })
+    .catch(err => {
+        console.log("Error getting reviews", err);
+    });
   }
 
   render() {
@@ -33,46 +63,30 @@ export default class App extends React.Component {
       <div>
       <h1 className="header">Reviews</h1>
       <hr className="blackLine"></hr>
-        <div className="ratingBar">
-          <div id="overallRating">
-            <div>5.0 </div>
-
-            <div>Stars</div>
-            <div>Number of Ratings</div>
-            <br></br>
-            <button id="writeAReview">WRITE A REVIEW</button>
-          </div>
-          <div id="ratingsBarGraph">
-          Number of Ratings
-          </div>
-          <div id="style">
-          Watch Style
-          </div>
-        </div>
+      <RatingRank product="this.state.product"></RatingRank>
         <br></br>
         <div className="filtersBar">
           Filters
         </div>
         <br></br>
-        <div className="reviewBar">
-          <div id="userInfo">
-            <div id="userRating">userRating</div>
-            <div id="date">date</div>
-            <div id="userName">userName</div>
-          </div>
-          <div id="reviewInfo">
-            <div id="reviewTitle">Review Title 17.5px</div>
-            <div id="reviewBody">Review Body</div>
-          </div>
-          <div id="userStyle">
-            <div id="styleChoice"> Watch Style </div>
-          </div>
-        </div>
-        <br></br>
-        <div className="toolBar">
-          <div id="helpful">Was this helpful?</div>
-          <div id="flag">Flag DRAWING</div>
-        </div>
+        <InfiniteScroll
+            pageStart={0}
+            loadMore={nextPage}
+            hasMore={this.state.hasMoreReviews}
+            loader={<div className="loader" key={0}>Loading ...</div>}
+        >
+            {Object.keys(this.state.reviewsPages).map(pageNum => {
+                return (
+                    {this.state.reviewsPages[pageNum].map(review => {
+                        return (
+                            <RatingReview review="review"></RatingReview>
+                            <br></br>
+                            <RatingActions review="review"></RatingActions>
+                        );
+                    })}
+                );
+            })}
+        </InfiniteScroll>
       </div>
     )
   }
