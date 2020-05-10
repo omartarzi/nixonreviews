@@ -52,6 +52,48 @@ export default class App extends React.Component {
     });
   }
 
+  async toggleLike(review) {
+    if (!review.myLike) {
+        review.myLike = 1;
+        review.likes++;
+        let reviews = this.state.reviews.splice(0);
+        let pos = reviews.findIndex(r => {
+            return r._id === review._id;
+        });
+        this.setState({
+            reviews: reviews.splice(pos, 1, review)
+        });
+        await axios.post("/reviewlike/" + String(review._id));
+    }
+  }
+
+  async toggleDislike(review) {
+    if (!review.myLike) {
+        review.myLike = -1;
+        review.dislikes++;
+        let reviews = this.state.reviews.splice(0);
+        let pos = reviews.findIndex(r => {
+            return r._id === review._id;
+        });
+        this.setState({
+            reviews: reviews.splice(pos, 1, review)
+        });
+        await axios.post("/reviewdislike/" + String(review._id));
+    }
+  }
+
+  async flagReview(review) {
+    review.flagged = true;
+    let reviews = this.state.reviews.splice(0);
+    let pos = reviews.findIndex(r => {
+        return r._id === review._id;
+    });
+    this.setState({
+        reviews: reviews.splice(pos, 1, review)
+    });
+    // TODO:  Save
+  }
+
   async nextPage(page) {
     return axios.get("/reviews/" + String(this.state.productid), {
         params: {
@@ -97,7 +139,11 @@ export default class App extends React.Component {
                         return (
                             <RatingReview review="review"></RatingReview>
                             <br></br>
-                            <RatingActions review="review"></RatingActions>
+                            <RatingActions review="review"
+                                toggleLike={() => this.toggleLike(review)}
+                                toggleDislike={() => this.toggleDislike(review)}
+                                flagReview={() => this.flagReview(review)}
+                                ></RatingActions>
                         );
                     })}
                 );

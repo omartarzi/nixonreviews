@@ -64,7 +64,9 @@ let createProductReviews = (index) => {
       date: faker.date.past(),
       title: randTitle,
       body: faker.lorem.paragraph(),
-      product_serial: randProduct_Serial
+      product_serial: randProduct_Serial,
+      likes: 0,
+      dislikes: 0
     })
   }
   return product

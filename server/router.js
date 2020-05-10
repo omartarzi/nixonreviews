@@ -9,6 +9,16 @@ router
   ;
 
 router
+  .route('/reviewlike/:id')
+  .post(reviews.like)
+  ;
+
+router
+  .route('/reviewdislike/:id')
+  .post(reviews.dislike)
+  ;
+
+router
   .route('/rankings/:id')
   .get(reviews.getRankings)
   ;

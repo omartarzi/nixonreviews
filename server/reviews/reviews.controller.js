@@ -78,6 +78,38 @@ exports.create = async (req, res, next) =>{
       res.status(201).json({message: "Review successfully saved"});
   } catch (e) {
       console.log("Error saving review", e);
-      return res.status(400).send('unable to save reviews try again');
+      return res.status(400).json({message: 'unable to save reviews try again'});
   }
+};
+
+exports.like = async (req, res, next) => {
+    try {
+        let review = await Reviews.model.find({
+            _id: ObjectID(req.params.id)
+        });
+        review.likes++;
+        await Reviews.update({_id: ObjectID(req.params.id)}, {
+            likes: review.likes
+        });
+        res.json({success: true});
+    } catch (e) {
+        console.log("Database error liking review!", e);
+        res.status(500).json({message: 'Unable to like review'});
+    }
+};
+
+exports.dislike = async (req, res, next) => {
+    try {
+        let review = await Reviews.model.find({
+            _id: ObjectID(req.params.id)
+        });
+        review.dislikes++;
+        await Reviews.update({_id: ObjectID(req.params.id)}, {
+            dislikes: review.dislikes
+        });
+        res.json({success: true});
+    } catch (e) {
+        console.log("Database error disliking review!", e);
+        res.status(500).json({message: 'Unable to dislike review'});
+    }
 };

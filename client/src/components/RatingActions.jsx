@@ -27,18 +27,6 @@ class RatingActions extends React.Component {
   componentDidMount() {
   }
 
-  toggleLike() {
-    // TODO
-  }
-
-  toggleDislike() {
-    // TODO
-  }
-
-  handleReport() {
-    // TODO
-  }
-
   render() {
     return (
         <div className="toolBar">
@@ -46,11 +34,19 @@ class RatingActions extends React.Component {
             <Row>
                 <Col sm={6}>
                     Was this helpful?
-                    <FontAwesomeIcon icon={faHeart} onClick={() => this.toggleLike} />
-                    <FontAwesomeIcon icon={faHeart} onClick={() => this.toggleDislike} />
+                    <FontAwesomeIcon icon={faHeart}
+                        className={"liked": (this.props.review.myLike > 0)}
+                        onClick={this.props.toggleLike} />
+                    {(this.props.review.likes > 0) ? this.props.review.likes : ''}
+                    <FontAwesomeIcon icon={faHeart}
+                        className={"disliked": (this.props.review.myLike > 0)}
+                        onClick={this.props.toggleDislike} />
+                    {(this.props.review.dislikes > 0) ? this.props.review.dislikes : ''}
                 </Col>
                 <Col sm={6} style={{"text-align": "right"}}>
-                    <FontAwesomeIcon icon={faFlag} onClick={() => this.handleReport} /> Flag
+                    <FontAwesomeIcon icon={faFlag}
+                        className={"flagged": this.props.review.flagged}
+                        onClick={this.props.flagReview} /> Flag
                 </Col>
             </Row>
           </Container>

@@ -14,7 +14,9 @@ const reviewsSchema = new mongoose.Schema({
   },
   verified_purchase: Boolean,
   product_serial: String,
-  image: String
+  image: String,
+  likes: Number,
+  dislikes: Number
 });
 
 const model = mongoose.model("Reviews", reviewsSchema);
