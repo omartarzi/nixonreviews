@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactModal from 'react-modal';
 import { Container, Row, Col } from 'react-grid-system';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,15 +35,18 @@ const StarRatingsSprite = styled.div`
   <FontAwesomeIcon icon={faFlag}/>
 */
 
+ReactModal.setAppElement('#app');
+
 class RatingRank extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
+        showReviewModal: false
     }
 
     //bind functions here
-
+    this.showReviewModal = this.showReviewModal.bind(this);
+    this.closeReviewModal = this.closeReviewModal.bind(this);
   }
 
   formatRating(val) {
@@ -53,6 +58,14 @@ class RatingRank extends React.Component {
 
   componentDidMount() {
 
+  }
+
+  showReviewModal () {
+    this.setState({ showReviewModal: true });
+  }
+  
+  closeReviewModal () {
+    this.setState({ showReviewModal: false });
   }
 
   render() {
@@ -72,6 +85,12 @@ class RatingRank extends React.Component {
             			>
             				WRITE A REVIEW
             			</button>
+                        <ReactModal 
+                           isOpen={this.state.showReviewModal}
+                           contentLabel="Minimal Modal Example"
+                        >
+                            <WriteReview onCloseModal={() => this.state.closeReviewModal()}></WriteReview>
+                        </ReactModal>
                     </div>
                 </Col>
                 <Col sm={4}>
