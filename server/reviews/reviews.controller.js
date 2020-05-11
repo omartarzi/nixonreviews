@@ -30,12 +30,12 @@ exports.getRankings = async (req, res, next) => {
         let rankings = await Reviews.model.aggregate([
             {
                 $match: {
-                    product: req.params.productid
+                    product: ObjectID(req.params.id)
                 }
             },
             {
                 $group: {
-                    _id: 'rating',
+                    _id: '$rating',
                     count: { $sum: 1 }
                 }
             }
@@ -90,7 +90,7 @@ exports.like = async (req, res, next) => {
             _id: ObjectID(req.params.id)
         });
         review.likes++;
-        await Reviews.update({_id: ObjectID(req.params.id)}, {
+        await Reviews.model.update({_id: ObjectID(req.params.id)}, {
             likes: review.likes
         });
         res.json({success: true});

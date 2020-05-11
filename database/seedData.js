@@ -8,6 +8,7 @@ var dbOptions = {
 
 const faker = require('faker');
 const mongoose = require('mongoose');
+const ObjectID = require('mongodb').ObjectID;
 const seeder = require('mongoose-seed');
 const Promise = require('bluebird');
 const Reviews = require('../server/reviews/reviews.model.js');
@@ -92,7 +93,7 @@ let createProductReviews = async (index) => {
 
    	//let reviewStr = randTitle + "\n randNoun + " is " + randAdj
 
-    let review = new Reviews.model({
+    let review = {
       rating: randRating,
       name: faker.name.findName(),
       date: faker.date.past(),
@@ -109,8 +110,7 @@ let createProductReviews = async (index) => {
       verified_purchase: false,
       likes: 0,
       dislikes: 0
-    });
-    await review.save();
+    };
     product.reviews.push(review);
   }
   return product
@@ -135,8 +135,27 @@ let seedData = (products) => {
   products.forEach(async (item) => {
     console.log("Attempting to create product", item.productId);
     try {
-        let result = await Products.model.create(item);
-        console.log('seeded', result);
+        let reviewData = item.reviews;
+        item.reviews = [];
+        let reviews = [];
+        let savedProduct = await Products.model.create(item);
+        for (const review of reviewData) {
+            review.product = ObjectID(savedProduct._id);
+            let savedModel;
+            try {
+                savedModel = await Reviews.model.create(review);
+            } catch (e) {
+                console.log("Error saving model", e);
+            }
+            reviews.push(savedModel);
+        }
+        let result = await Products.model.updateOne({_id: ObjectID(savedProduct._id)}, {
+            $set: {
+                reviews: reviews
+            }
+        });
+        console.log("Update result", result);
+        console.log('seeded', savedProduct);
     } catch(err) {
         console.log(err)
     }
