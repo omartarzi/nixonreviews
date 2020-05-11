@@ -30,21 +30,21 @@ class RatingActions extends React.Component {
   render() {
     return (
         <div className="toolBar">
-          <Container>
-            <Row>
+          <Container style={{"width": "100%"}}>
+            <Row style={{"width": "100%"}}>
                 <Col sm={6}>
-                    <div>
-                        Was this helpful?
+                    <div style={{"width": "100%"}}>
+                        Was this helpful?&nbsp;&nbsp;&nbsp;
                         <span className={{"clickable": true, "liked": (this.props.review.myLike > 0)}}><FontAwesomeIcon icon={faHeart}
                             onClick={this.props.toggleLike} /></span>
-                        {(this.props.review.likes > 0) ? this.props.review.likes : ''}
+                        {(this.props.review.likes > 0) ? this.props.review.likes : ''}&nbsp;&nbsp;
                         <span className={{"clickable": true, "disliked": (this.props.review.myLike > 0)}}><FontAwesomeIcon icon={faHeart}
                             onClick={this.props.toggleDislike} /></span>
                         {(this.props.review.dislikes > 0) ? this.props.review.dislikes : ''}
                     </div>
                 </Col>
                 <Col sm={6} style={{"textAlign": "right"}}>
-                    <div>
+                    <div style={{"width": "100%"}}>
                         <span className={{"flagged": this.props.review.flagged}}>
                             <FontAwesomeIcon icon={faFlag}
                                 onClick={this.props.flagReview} />
