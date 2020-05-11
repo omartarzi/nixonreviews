@@ -19,7 +19,7 @@ import WriteReview from './WriteReview.jsx';
 
 const RectangleBackground = styled.div`
     display: inline-block;
-    width: 80%;
+    width: calc(100% - 100px);
     height: 24px;
     background-color: #999999;
     margin-bottom: 4px;
