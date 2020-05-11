@@ -22,8 +22,11 @@ const RectangleBackground = styled.div`
     width: 80%;
     height: 24px;
     background-color: #999999;
+    margin-bottom: 4px;
 
     span {
+        display: inline-block;
+        height: 100%;
         background-color: #000000;
     }
 `;
@@ -100,7 +103,7 @@ class RatingRank extends React.Component {
                                 <FontAwesomeIcon icon={faStar} />
                                 <span style={{width: "20px", "textAlign": "center"}}>{breakdown.level}</span>
                                 <RectangleBackground>
-                                    <span style={{width: String(breakdown.pct) + '%'}}></span>
+                                    <span style={{width: String(breakdown.pct) + '%'}}>&nbsp;</span>
                                 </RectangleBackground>
                                 <span style={{width: "30px"}}>{breakdown.pct}%</span>
                             </div>

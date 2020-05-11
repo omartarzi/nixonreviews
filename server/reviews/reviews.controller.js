@@ -44,11 +44,21 @@ exports.getRankings = async (req, res, next) => {
         let total = rankings.reduce((total, ranking) => {
             return total + ranking.count;
         }, 0);
+        let rankingsLookup = {};
+        [5,4,3,2,1].forEach(level => {
+            rankingsLookup[String(level)] = {
+                level: level,
+                pct: 0,
+                count: 0
+            }
+        });
         rankings.forEach(ranking => {
             ranking.level = parseInt(ranking._id);
             delete ranking._id;
             ranking.pct = (100 * ranking.count / total);
+            rankingsLookup[String(ranking.level)] = ranking;
         });
+        rankings = Object.values(rankingsLookup);
         // Sort rankings in descending order
         rankings.sort((a, b) => {
             return b.level - a.level;
