@@ -140,7 +140,7 @@ let seedData = (products) => {
         let reviews = [];
         let savedProduct = await Products.model.create(item);
         for (const review of reviewData) {
-            review.product = ObjectID(savedProduct._id);
+            review.product_id = ObjectID(savedProduct._id);
             let savedModel;
             try {
                 savedModel = await Reviews.model.create(review);

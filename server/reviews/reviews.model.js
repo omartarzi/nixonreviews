@@ -13,7 +13,7 @@ const reviewsSchema = new mongoose.Schema({
     sporty: Boolean
   },
   verified_purchase: Boolean,
-  product: {type: mongoose.Schema.Types.ObjectId, ref: 'Products'},
+  product_id: {type: mongoose.Schema.Types.ObjectId},
   product_serial: String,
   image: String,
   likes: Number,

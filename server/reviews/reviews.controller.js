@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const ObjectID = require('mongodb').ObjectID;
 const Reviews = require("./reviews.model.js");
 
@@ -25,12 +26,12 @@ exports.getAll = async (req, res, next) => {
 }
 
 exports.getRankings = async (req, res, next) => {
-    console.log("In get rankings");
+    console.log("In get rankings", req.params.id);
     try {
         let rankings = await Reviews.model.aggregate([
             {
                 $match: {
-                    product: ObjectID(req.params.id)
+                    'product_id': ObjectID(req.params.id)
                 }
             },
             {
