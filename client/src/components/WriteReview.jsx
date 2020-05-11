@@ -17,6 +17,7 @@ class WriteReview extends React.Component {
     //bind functions here
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeRating = this.handleChangeRating.bind(this);
   }
 
   componentDidMount() {
@@ -58,7 +59,7 @@ class WriteReview extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    // TODO
+    this.props.onSubmitReview(this.state.review);
   }
 
   render() {

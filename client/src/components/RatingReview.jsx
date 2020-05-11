@@ -4,7 +4,6 @@ import StarRatings from 'react-star-ratings';
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment-timezone';
-import Moment from 'react-moment';
 
 /*
   <FontAwesomeIcon icon={faHeart}/>
@@ -38,7 +37,7 @@ class RatingReview extends React.Component {
                             starSpacing="4px"
                         />
                     </div>
-                    <div className="date"><Moment format="MMM Do, YYYY" date="{this.props.review.date}"></Moment></div>
+                    <div className="date">{moment(this.props.review.date, 'YYYY-MM-DDTHH:mm:ss.SSS').format('MMM Do, YYYY')}</div>
                     <div className="userName">{this.props.review.name}</div>
                 </Col>
                 <Col sm={6}>

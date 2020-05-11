@@ -43,6 +43,7 @@ class RatingRank extends React.Component {
     //bind functions here
     this.showReviewModal = this.showReviewModal.bind(this);
     this.closeReviewModal = this.closeReviewModal.bind(this);
+    this.onSubmitReview = this.onSubmitReview.bind(this);
   }
 
   formatRating(val) {
@@ -59,7 +60,16 @@ class RatingRank extends React.Component {
   showReviewModal () {
     this.setState({ showReviewModal: true });
   }
-  
+
+  async onSubmitReview(review) {
+    try {
+        await this.props.onSubmitReview(review);
+        this.setState({ showReviewModal: false });
+    } catch (e) {
+        console.log("Error submitting review!", e);
+    }
+  }
+
   closeReviewModal () {
     this.setState({ showReviewModal: false });
   }
@@ -84,7 +94,9 @@ class RatingRank extends React.Component {
                    isOpen={this.state.showReviewModal}
                    contentLabel="Minimal Modal Example"
                 >
-                    <WriteReview onCloseModal={() => this.state.closeReviewModal()}></WriteReview>
+                    <WriteReview product={this.props.product}
+                        onSubmitReview={this.onSubmitReview}
+                        onCloseModal={() => this.state.closeReviewModal()}></WriteReview>
                 </ReactModal>
             </div>
             {this.props.rankings.breakdowns.map(breakdown => {

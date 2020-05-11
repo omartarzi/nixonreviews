@@ -26,6 +26,7 @@ class App extends React.Component {
 
     //bind functions here
     this.nextPage = this.nextPage.bind(this);
+    this.submitReview = this.submitReview.bind(this);
   }
 
   async componentDidMount() {
@@ -134,13 +135,24 @@ class App extends React.Component {
     });
   }
 
+  async submitReview(review) {
+    console.log("Submitting review", review);
+    return axios.post("/api/reviews/" + String(this.productid), review)
+    .then(response => {
+        console.log(response);
+        // TODO
+    });
+  }
+
   render() {
     console.log("In render");
     return (
       <div>
       <h1 className="header">Reviews</h1>
       <hr className="blackLine"></hr>
-      <RatingRank product={this.state.product} rankings={this.state.rankings}></RatingRank>
+      <RatingRank product={this.state.product}
+        rankings={this.state.rankings}
+        onSubmitReview={this.submitReview}></RatingRank>
         <br></br>
         <div className="filtersBar">
           Filters
