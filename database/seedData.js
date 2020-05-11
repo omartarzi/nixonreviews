@@ -1,8 +1,8 @@
 const faker = require('faker');
 const mongoose = require('mongoose');
-var seeder = require('mongoose-seed');
-var model = require('./index.js');
-
+const seeder = require('mongoose-seed');
+const Reviews = require('../server/reviews/reviews.model.js');
+const Products = require('../server/products/products.model.js');
 
 get_random = function (list) {
   return list[Math.floor((Math.random()*list.length))];
@@ -58,16 +58,24 @@ let createProductReviews = (index) => {
 
    	//let reviewStr = randTitle + "\n randNoun + " is " + randAdj
 
-    product.reviews.push({
+    product.reviews.push(new Reviews.model({
       rating: randRating,
       name: faker.name.findName(),
       date: faker.date.past(),
       title: randTitle,
       body: faker.lorem.paragraph(),
       product_serial: randProduct_Serial,
+      image: null,
+      style: {
+        classic: false,
+        funky: false,
+        daily_wear: false,
+        sporty: false
+      },
+      verified_purchase: false,
       likes: 0,
       dislikes: 0
-    })
+    }))
   }
   return product
 }
@@ -83,7 +91,7 @@ let createProducts = () => {
 
 let seedData = (products) => {
   products.forEach((item) => {
-    model
+    Products.model
       .create(item)
       .then((result) => {
         console.log('seeded', result);
