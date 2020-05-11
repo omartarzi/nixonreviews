@@ -74,22 +74,22 @@ class WriteReview extends React.Component {
             </Row>
             <Row>
                 <Col sm={9}>
-                    <div>Please share your experience</div>
-                    <div>{this.props.product.title}</div>
-                    <div>Your feedback will help other shoppers make good choices, and we'll use it to improve our products.</div>
-                    <div>Review guidelines</div>
+                    <div style={{"fontSize": "20px"}}>Please share your experience</div>
+                    <div style={{"fontSize": "12px", "color": "#333333"}}>{this.props.product.title}</div>
+                    <div style={{"fontSize": "16px", "marginTop": "12px"}}>Your feedback will help other shoppers make good choices, and we'll use it to improve our products.</div>
+                    <div style={{"fontSize": "14px", "marginTop": "12px"}}>Review guidelines</div>
                 </Col>
                 {this.props.product.images && this.props.product.images[0] && (<Col sm={3}>
                     <img src={this.props.product.images[0]} />
                 </Col>)}
                 {(!this.props.product.images || !this.props.product.images[0]) && (<Col sm={3}>&nbsp;</Col>)}
             </Row>
-            <Row>
+            <Row style={{"marginTop": "48px"}}>
                 <Col sm={12}>
                     Overall Rating <span className="required">*</span>
                 </Col>
             </Row>
-            <Row>
+            <Row style={{"marginTop": "8px"}}>
                 <Col sm={12}>
                     <StarRatings
                         rating={this.state.review.rating}
@@ -100,36 +100,36 @@ class WriteReview extends React.Component {
                     />
                 </Col>
             </Row>
-            <Row>
+            <Row style={{"marginTop": "16px"}}>
                 <Col sm={12}>
                     Review <span className="required">*</span>
                 </Col>
             </Row>
-            <Row>
+            <Row style={{"marginTop": "8px"}}>
                 <Col sm={12}>
                     <textarea rows="5" style={{"width": "100%"}} onChange={(e) => this.handleChange(e, 'body')}>
                         {this.state.review.body}
                     </textarea>
-                    <span><FontAwesomeIcon icon={faInfoCircle} /> Make your review great: Describe what you liked, what you didn't like, and other key things shoppers should know (minimum 5 characters)</span>
+                    <span class="infotext"><FontAwesomeIcon icon={faInfoCircle} /> Make your review great: Describe what you liked, what you didn't like, and other key things shoppers should know (minimum 5 characters)</span>
                 </Col>
             </Row>
-            <Row>
+            <Row style={{"marginTop": "16px"}}>
                 <Col sm={12}>
                     Review Title
                 </Col>
             </Row>
-            <Row>
+            <Row style={{"marginTop": "8px"}}>
                 <Col sm={12}>
                     <input type="text" style={{"width": "100%"}} onChange={(e) => this.handleChange(e, 'title')} />
-                    <span><FontAwesomeIcon icon={faInfoCircle} /> Your overall impression (150 characters or less)</span>
+                    <span class="infotext"><FontAwesomeIcon icon={faInfoCircle} /> Your overall impression (150 characters or less)</span>
                 </Col>
             </Row>
-            <Row>
+            <Row style={{"marginTop": "16px"}}>
                 <Col sm={12}>
                     Photos or Videos
                 </Col>
             </Row>
-            <Row>
+            <Row style={{"marginTop": "8px"}}>
                 <Col sm={12}>
                     <div>
                         <button type="button" className="btn" onClick={this.handleUploadImage}>
@@ -139,12 +139,12 @@ class WriteReview extends React.Component {
                             Add Video
                         </button>
                     </div>
-                    <span><FontAwesomeIcon icon={faInfoCircle} /> You may add up to five photos or videos</span>
+                    <span class="infotext"><FontAwesomeIcon icon={faInfoCircle} /> You may add up to five photos or videos</span>
                 </Col>
             </Row>
-            <Row>
+            <Row style={{"marginTop": "16px"}}>
                 <Col sm={12}>
-                    <input type="submit" value="Submit" />
+                    <button class="writeAReview" type="submit">Submit</button>
                 </Col>
             </Row>
         </Container>

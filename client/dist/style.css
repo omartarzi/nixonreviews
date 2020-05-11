@@ -31,7 +31,7 @@ hr.blackLine {
   border: 1px solid black;
 }
 
-#writeAReview {
+.writeAReview {
   background-color: black;
   border: none;
   color: white;
@@ -65,4 +65,13 @@ hr.blackLine {
   width: 97%;
   align-items: center;
   font-size: 85%;
+}
+
+.required {
+    color: red;
+}
+
+.infotext {
+    color: #777777;
+    font-size: 11px;
 }

@@ -6,8 +6,20 @@ exports.getAll = async (req, res, next) => {
     const pageSize = 10;
     try {
         console.log("Getting all reviews for product", req.params.productid);
-        const total = await Reviews.model.count({product: ObjectID(req.params.productid)});
-        const reviews = await Reviews.model.find({})
+        let query = {
+            product_id: ObjectID(req.params.productid)
+        };
+        if (req.query.levels) {
+            let levels = req.query.levels.split(",").map(level => {
+                return parseInt(level);
+            });
+            query.rating = {
+                $in: levels
+            };
+        }
+        console.log("Querying by", query);
+        const total = await Reviews.model.count(query);
+        const reviews = await Reviews.model.find(query)
         .limit(pageSize)
         .skip(parseInt(req.query.page || 0) * 10)
         .sort([['date', -1]])

@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroller';
 import RatingRank from './RatingRank.jsx';
+import RatingFilters from './RatingFilters.jsx';
 import RatingReview from './RatingReview.jsx';
 import RatingActions from './RatingActions.jsx';
 
@@ -24,6 +25,7 @@ class App extends React.Component {
     }
 
     //bind functions here
+    this.filterBy = this.filterBy.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.submitReview = this.submitReview.bind(this);
   }
@@ -139,13 +141,28 @@ class App extends React.Component {
     // TODO:  Save
   }
 
+  async filterBy(newFilters) {
+    this.setState({
+        filters: {
+            ...newFilters
+        },
+        reviewsPages: {}
+    }, async () => {
+        await this.nextPage(0);
+    });
+  }
+
   async nextPage(page) {
     console.log("Getting page", page);
     this.currentPage = page + 1;
+    let params = {
+        page: page
+    };
+    if (this.state.filters && this.state.filters.levels && (this.state.filters.levels.length > 0)) {
+        params.levels = this.state.filters.levels.join(",");
+    }
     return axios.get("/api/reviews/" + String(this.productid), {
-        params: {
-            page: page
-        }
+        params: params
     })
     .then(response => {
         let currentCount = Object.keys(this.state.reviewsPages).reduce((total, pageNum) => {
@@ -158,7 +175,7 @@ class App extends React.Component {
                 [String(page)]: response.data.reviews,
             },
             totalReviews: response.data.total,
-            hasMoreReviews: (response.data.total > currentCount)
+            hasMoreReviews: (response.data.reviews.length > 0) && (response.data.total > currentCount)
         });
     })
     .catch(err => {
@@ -192,10 +209,8 @@ class App extends React.Component {
         rankings={this.state.rankings}
         onSubmitReview={this.submitReview}></RatingRank>
         <br></br>
-        <div className="filtersBar">
-          Filters
-        </div>
-        <br></br>
+        <RatingFilters filters="this.state.filters" onFilter={this.filterBy}></RatingFilters>
+        <br />
         <InfiniteScroll
             pageStart={0}
             loadMore={this.nextPage}

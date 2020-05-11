@@ -40,6 +40,15 @@ class RatingRank extends React.Component {
         showReviewModal: false
     }
 
+    this.reviewModalStyles = {
+        content : {
+            top                   : 0,
+            left                  : 0,
+            right                 : 0,
+            bottom                : 'auto'
+        }
+    };
+
     //bind functions here
     this.showReviewModal = this.showReviewModal.bind(this);
     this.closeReviewModal = this.closeReviewModal.bind(this);
@@ -90,9 +99,9 @@ class RatingRank extends React.Component {
             <Col sm={4}>
                 <div style={{"textAlign": "left"}}>
                     <div className="ratingBar">
-                        <div className="overallRating">
-                            <div>{this.formatRating(this.props.rankings.overallRating)}</div>
-                            <div style={{"textAlign": "left"}}>
+                        <div className="overallRating" style={{"textAlign": "center", "width": "100%"}}>
+                            <div style={{"fontSize": "24px", "fontWeight": "bold"}}>{this.formatRating(this.props.rankings.overallRating)}</div>
+                            <div style={{"textAlign": "center"}}>
                                 <StarRatings
                                     rating={this.props.rankings.overallRating || 0}
                                     starRatedColor="black"
@@ -104,6 +113,7 @@ class RatingRank extends React.Component {
                             <br />
                             <div>
                     			<button
+                    			    className="writeAReview"
                     				type='button'
                     				onClick={() => this.showReviewModal()}
                     			>
@@ -114,6 +124,7 @@ class RatingRank extends React.Component {
                         <ReactModal 
                            isOpen={this.state.showReviewModal}
                            contentLabel="Minimal Modal Example"
+                           style={this.reviewModalStyles}
                         >
                             <WriteReview product={this.props.product}
                                 onSubmitReview={this.onSubmitReview}
