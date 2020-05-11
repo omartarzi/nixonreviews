@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const router = require('router');
-const Reviews = require('../database/reviews.model.js');
+//const Reviews = require('../database/reviews.model.js');
 
 const app = express();
 const port = 1738;
@@ -18,6 +18,7 @@ app.use(cors());
 app.use('/', express.static(path.join(__dirname, '../client/dist')));
 app.use('/api', router);
 
+/*
 app.get('/api/:product_serial', function(req,res){
   let serial = req.params.product_serial;
   //A1057-307-00
@@ -28,5 +29,6 @@ app.get('/api/:product_serial', function(req,res){
     res.status(200).send(result);
   });
 });
+*/
 
 app.listen(port, () => console.log(`listening on port ${port}`))

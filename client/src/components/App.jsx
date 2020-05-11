@@ -1,8 +1,12 @@
+import "regenerator-runtime/runtime";
 import React from 'react';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroller';
+import RatingRank from './RatingRank.jsx';
+import RatingReview from './RatingRank.jsx';
+import RatingActions from './RatingRank.jsx';
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props)
     this.productid = 0;
@@ -10,11 +14,17 @@ export default class App extends React.Component {
         hasMoreReviews: false,
         reviewsPages: {},
         totalReviews: 0,
-        product: null
+        product: null,
+        rankings: {
+            total: 0,
+            overallRating: 0,
+            breakdowns: []
+        },
+        reviews: []
     }
 
     //bind functions here
-
+    this.nextPage = this.nextPage.bind(this);
   }
 
   async componentDidMount() {
@@ -120,6 +130,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log("In render");
     return (
       <div>
       <h1 className="header">Reviews</h1>
@@ -132,7 +143,7 @@ export default class App extends React.Component {
         <br></br>
         <InfiniteScroll
             pageStart={0}
-            loadMore={nextPage}
+            loadMore={this.nextPage}
             hasMore={this.state.hasMoreReviews}
             loader={<div className="loader" key={0}>Loading ...</div>}
         >
@@ -158,3 +169,5 @@ export default class App extends React.Component {
     )
   }
 }
+
+export default App;

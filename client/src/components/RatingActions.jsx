@@ -43,7 +43,7 @@ class RatingActions extends React.Component {
                         onClick={this.props.toggleDislike} />
                     {(this.props.review.dislikes > 0) ? this.props.review.dislikes : ''}
                 </Col>
-                <Col sm={6} style={{"text-align": "right"}}>
+                <Col sm={6} style={{"textAlign": "right"}}>
                     <FontAwesomeIcon icon={faFlag}
                         className={"flagged": this.props.review.flagged}
                         onClick={this.props.flagReview} /> Flag
@@ -54,3 +54,5 @@ class RatingActions extends React.Component {
     );
   }
 }
+
+export default RatingActions;

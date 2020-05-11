@@ -9,6 +9,7 @@ import { faHeart, faStar } from '@fortawesome/free-solid-svg-icons'; //solid hea
 //open heart
 //open flag
 import { faFlag } from '@fortawesome/free-solid-svg-icons';//solid flag
+import WriteReview from './WriteReview.jsx';
 
 /*
   <FontAwesomeIcon icon={faHeart}/>
@@ -53,15 +54,16 @@ class RatingRank extends React.Component {
         <Container>
             <Row>
                 <Col sm={4}>
-                    <div class="ratingBar">
-                        <div class="overallRating">
+                    <div className="ratingBar">
+                        <div className="overallRating">
                             <div>{this.formatRating(this.props.rankings.overallRating)}</div>
                             <StarRatings
                                 rating={this.props.rankings.overallRating}
                                 starDimension="40px"
                                 starSpacing="15px"
                             />
-                        <div>{{this.props.rankings.total}} Ratings</div>
+                        </div>
+                        <div>{this.props.rankings.total} Ratings</div>
                         <br></br>
             			<button
             				type='button'
@@ -78,24 +80,27 @@ class RatingRank extends React.Component {
                     </div>
                 </Col>
                 <Col sm={4}>
-                    <div style={{"text-align": "center"}}>{this.props.rankings.total} Ratings</div>
+                    <div style={{"textAlign": "center"}}>{this.props.rankings.total} Ratings</div>
                     {this.props.rankings.breakdowns.map(breakdown => {
                         return (
                             <div>
                                 <FontAwesomeIcon icon={faStar} />
-                                <span style={{width: "20px", "text-align": "center"}}>{breakdown.level}</span>
+                                <span style={{width: "20px", "textAlign": "center"}}>{breakdown.level}</span>
                                 <RectangleBackground>
                                     <span style={{width: String(breakdown.pct) + '%'}}></span>
                                 </RectangleBackground>
                                 <span style={{width: "30px"}}>{breakdown.pct}%</span>
                             </div>
                         );
-                    })
+                    })}
                 </Col>
                 <Col sm={4}>
                     TODO
                 </Col>
             </Row>
+        </Container>
     )
   }
 }
+
+export default RatingRank;

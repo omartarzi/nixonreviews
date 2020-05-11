@@ -66,7 +66,7 @@ class WriteReview extends React.Component {
         <form onSubmit={this.handleSubmit}>
         <Container>
             <Row>
-                <Col sm={12} style={{"text-align": "right"}}>
+                <Col sm={12} style={{"textAlign": "right"}}>
                     <FontAwesomeIcon icon={faStar} style={{"cursor": "pointer"}} onClick={() => closeModal()} />
                 </Col>
             </Row>
@@ -84,7 +84,7 @@ class WriteReview extends React.Component {
             </Row>
             <Row>
                 <Col sm={12}>
-                    Overall Rating <span class="required">*</span>
+                    Overall Rating <span className="required">*</span>
                 </Col>
             </Row>
             <Row>
@@ -100,7 +100,7 @@ class WriteReview extends React.Component {
             </Row>
             <Row>
                 <Col sm={12}>
-                    Review <span class="required">*</span>
+                    Review <span className="required">*</span>
                 </Col>
             </Row>
             <Row>
@@ -130,10 +130,10 @@ class WriteReview extends React.Component {
             <Row>
                 <Col sm={12}>
                     <div>
-                        <button type="button" class="btn" onClick={this.handleUploadImage}>
+                        <button type="button" className="btn" onClick={this.handleUploadImage}>
                             Add Photo
                         </button>
-                        <button type="button" class="btn" onClick={this.handleUploadVideo}>
+                        <button type="button" className="btn" onClick={this.handleUploadVideo}>
                             Add Video
                         </button>
                     </div>
@@ -146,6 +146,9 @@ class WriteReview extends React.Component {
                 </Col>
             </Row>
         </Container>
+        </form>
     );
   }
 }
+
+export default WriteReview;

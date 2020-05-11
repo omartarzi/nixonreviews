@@ -28,7 +28,7 @@ const StarRatingsSprite = styled.div`
   <FontAwesomeIcon icon={faFlag}/>
 */
 
-class RatingRank extends React.Component {
+class RatingReview extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -48,16 +48,16 @@ class RatingRank extends React.Component {
             <Container>
                 <Row>
                     <Col sm={3}>
-                        <div class="userRating"><StarRatingsSprite><span style={{width: String(this.state.review.rating * 100 / 5) + '%'}}></span></StarRatingsSprite></div>
-                        <div class="date"><Moment format="MMM Do, YYYY" date="{this.state.review.date}"></Moment></div>
-                        <div class="userName">{this.state.review.username}</div>
+                        <div className="userRating"><StarRatingsSprite><span style={{width: String(this.state.review.rating * 100 / 5) + '%'}}></span></StarRatingsSprite></div>
+                        <div className="date"><Moment format="MMM Do, YYYY" date="{this.state.review.date}"></Moment></div>
+                        <div className="userName">{this.state.review.username}</div>
                     </Col>
                     <Col sm={6}>
-                        <div class="reviewTitle">{this.state.review.title}</div>
-                        <div class="reviewBody">{this.state.review.body}</div>
+                        <div className="reviewTitle">{this.state.review.title}</div>
+                        <div className="reviewBody">{this.state.review.body}</div>
                     </Col>
                     <Col sm={3}>
-                        <div class="styleChoice"> Watch Style </div>
+                        <div className="styleChoice"> Watch Style </div>
                     </Col>
                 </Row>
             </Container>
@@ -65,3 +65,5 @@ class RatingRank extends React.Component {
     );
   }
 }
+
+export default RatingReview;
