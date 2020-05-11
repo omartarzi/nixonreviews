@@ -4,11 +4,11 @@ const Reviews = require("./reviews.model.js");
 exports.getAll = async (req, res, next) => {
     const pageSize = 10;
     try {
-        const total = await Reviews.model.count({product._id: req.params.productid});
-        const reviews = await Reviews.model.find({}, {
-            limit: pageSize,
-            skip: parseInt(req.query.page || 0) * 10
-        })
+        console.log("Getting all reviews for product", req.params.productid);
+        const total = await Reviews.model.count({product: ObjectID(req.params.productid)});
+        const reviews = await Reviews.model.find({})
+        .limit(pageSize)
+        .skip(parseInt(req.query.page || 0) * 10)
         .sort([['date', -1]])
         .exec();
         res.json({
@@ -16,7 +16,7 @@ exports.getAll = async (req, res, next) => {
             total: total
         });
     } catch (e) {
-        console.log("Database error getting reviews", err);
+        console.log("Database error getting reviews", e);
         res.status(500).json({message: "Unable to get reviews!"});
     }
 // //   searchQuery: (obj) => database.aggregate([
@@ -30,7 +30,7 @@ exports.getRankings = async (req, res, next) => {
         let rankings = await Reviews.model.aggregate([
             {
                 $match: {
-                    product._id: req.params.productid
+                    product: req.params.productid
                 }
             },
             {
@@ -69,7 +69,7 @@ exports.getRankings = async (req, res, next) => {
 
 exports.create = async (req, res, next) =>{
   let reviews_body = req.body;
-  reviews_body.product = {_id: req.params.productid};
+  reviews_body.product = {_id: ObjectID(req.params.productid)};
   try {
       let saved = await Reviews.model.create(reviews_body);
       if (!saved) {

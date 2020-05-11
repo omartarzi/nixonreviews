@@ -3,7 +3,8 @@ const Products = require("./products.model.js");
 
 exports.getAll = async (req, res, next) => {
     try {
-        const products = await Products.model.find({});
+        const products = await Products.model.find({})
+        .populate('reviews');
         res.json({
             products: products
         });

@@ -24,7 +24,7 @@ router
   ;
 
 router
-  .route('/product/')
+  .route('/product')
   .get(products.getAll)
   ;
 

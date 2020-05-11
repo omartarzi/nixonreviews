@@ -1,15 +1,49 @@
+const mongodbUrl = 'mongodb://localhost:27017/nixon';
+var dbOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    connectTimeoutMS: 60000,
+    socketTimeoutMS: 60000
+};
+
 const faker = require('faker');
 const mongoose = require('mongoose');
 const seeder = require('mongoose-seed');
+const Promise = require('bluebird');
 const Reviews = require('../server/reviews/reviews.model.js');
 const Products = require('../server/products/products.model.js');
+
+mongoose.connection.on('error', function(err) {
+  console.error('MongoDB connection error. Please make sure MongoDB is running. -> ' + err);
+});
+
+mongoose.connection.on('disconnected', function() {
+  console.error('MongoDB connection disconnected.')
+});
+
+mongoose.connection.on('reconnected', function() {
+  console.error('MongoDB connection reconnected.')
+});
+
+var connectWithRetry = function() {
+  return new Promise(resolve => {
+      mongoose.connect(mongodbUrl, dbOptions, function(err) {
+        if (err) {
+          console.error('Failed to connect to mongo on startup - retrying in 5 sec. -> ' + err);
+          setTimeout(connectWithRetry, 5000);
+        } else {
+            resolve();
+        }
+      });
+  });
+};
 
 get_random = function (list) {
   return list[Math.floor((Math.random()*list.length))];
 }
 
 
-let createProductReviews = (index) => {
+let createProductReviews = async (index) => {
   let product = {};
   product.productId = index;
   product.reviews = [];
@@ -58,7 +92,7 @@ let createProductReviews = (index) => {
 
    	//let reviewStr = randTitle + "\n randNoun + " is " + randAdj
 
-    product.reviews.push(new Reviews.model({
+    let review = new Reviews.model({
       rating: randRating,
       name: faker.name.findName(),
       date: faker.date.past(),
@@ -75,32 +109,50 @@ let createProductReviews = (index) => {
       verified_purchase: false,
       likes: 0,
       dislikes: 0
-    }))
+    });
+    await review.save();
+    product.reviews.push(review);
   }
   return product
 }
 
+let deleteAllProducts = async () => {
+    await Reviews.model.remove({});
+    await Products.model.remove({});
+};
 
-let createProducts = () => {
+let createProducts = async () => {
   let productArr = [];
   for (let i = 1; i < 101; i++) {
-    productArr.push(createProductReviews(i));
+    let product = await createProductReviews(i);
+    productArr.push(product);
   }
+  console.log("Created products", productArr.length);
   return productArr;
 };
 
 let seedData = (products) => {
-  products.forEach((item) => {
-    Products.model
-      .create(item)
-      .then((result) => {
+  products.forEach(async (item) => {
+    console.log("Attempting to create product", item.productId);
+    try {
+        let result = await Products.model.create(item);
         console.log('seeded', result);
-      })
-      .catch((err) => console.log(err));
+    } catch(err) {
+        console.log(err)
+    }
   });
 };
 
-seedData(createProducts());
+connectWithRetry()
+.then(() => {
+    return deleteAllProducts();
+})
+.then(() => {
+    return createProducts();
+})
+.then(products => {
+    return seedData(products);
+});
 
 
 
