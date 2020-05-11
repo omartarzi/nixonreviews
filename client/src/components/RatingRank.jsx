@@ -86,50 +86,59 @@ class RatingRank extends React.Component {
   render() {
     console.log("In RatingRank render", this.props);
     return (
-        <div style={{"textAlign": "left"}}>
-            <div className="ratingBar">
-                <div className="overallRating">
-                    <div>{this.formatRating(this.props.rankings.overallRating)}</div>
-                    <div style={{"textAlign": "left"}}>
-                        <StarRatings
-                            rating={this.props.rankings.overallRating || 0}
-                            starDimension="40px"
-                            starSpacing="15px"
-                        />
+        <Row style={{width: "100%"}}>
+            <Col sm={4}>
+                <div style={{"textAlign": "left"}}>
+                    <div className="ratingBar">
+                        <div className="overallRating">
+                            <div>{this.formatRating(this.props.rankings.overallRating)}</div>
+                            <div style={{"textAlign": "left"}}>
+                                <StarRatings
+                                    rating={this.props.rankings.overallRating || 0}
+                                    starRatedColor="black"
+                                    starDimension="40px"
+                                    starSpacing="15px"
+                                />
+                            </div>
+                            <div>{this.props.rankings.total} Ratings</div>
+                            <br />
+                            <div>
+                    			<button
+                    				type='button'
+                    				onClick={() => this.showReviewModal()}
+                    			>
+                    				WRITE A REVIEW
+                    			</button>
+                    		</div>
+                        </div>
+                        <ReactModal 
+                           isOpen={this.state.showReviewModal}
+                           contentLabel="Minimal Modal Example"
+                        >
+                            <WriteReview product={this.props.product}
+                                onSubmitReview={this.onSubmitReview}
+                                onCloseModal={() => this.closeReviewModal()}></WriteReview>
+                        </ReactModal>
                     </div>
-                    <div>{this.props.rankings.total} Ratings</div>
                 </div>
-                <ReactModal 
-                   isOpen={this.state.showReviewModal}
-                   contentLabel="Minimal Modal Example"
-                >
-                    <WriteReview product={this.props.product}
-                        onSubmitReview={this.onSubmitReview}
-                        onCloseModal={() => this.state.closeReviewModal()}></WriteReview>
-                </ReactModal>
-            </div>
-            {this.props.rankings.breakdowns.map(breakdown => {
-                return (
-                    <div key={breakdown.level}>
-                        <FontAwesomeIcon icon={faStar} />
-                        <span style={{width: "20px", "textAlign": "center"}}>{breakdown.level}</span>
-                        <RectangleBackground>
-                            <span style={{width: String(breakdown.pct) + '%'}}>&nbsp;</span>
-                        </RectangleBackground>
-                        <span style={{width: "30px"}}> {this.formatPct(breakdown.pct)}%</span>
-                    </div>
-                );
-            })}
-            <br />
-            <div>
-    			<button
-    				type='button'
-    				onClick={() => this.showReviewModal()}
-    			>
-    				WRITE A REVIEW
-    			</button>
-    		</div>	
-        </div>
+            </Col>
+            <Col sm={4}>
+                <div style={{"textAlign": "left"}}>
+                    {this.props.rankings.breakdowns.map(breakdown => {
+                        return (
+                            <div key={breakdown.level}>
+                                <FontAwesomeIcon icon={faStar} />
+                                <div style={{width: "20px", "display": "inline-block", "textAlign": "center"}}>{breakdown.level}</div>
+                                <RectangleBackground>
+                                    <span style={{width: String(breakdown.pct) + '%'}}>&nbsp;</span>
+                                </RectangleBackground>
+                                <div style={{width: "56px", "display": "inline-block", "paddingLeft": "4px"}}> {this.formatPct(breakdown.pct)}%</div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </Col>
+        </Row>
     )
   }
 }

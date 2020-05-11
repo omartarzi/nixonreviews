@@ -15,6 +15,7 @@ class WriteReview extends React.Component {
     }
 
     //bind functions here
+    this.closeModal = this.closeModal.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeRating = this.handleChangeRating.bind(this);
@@ -68,7 +69,7 @@ class WriteReview extends React.Component {
         <Container>
             <Row>
                 <Col sm={12} style={{"textAlign": "right"}}>
-                    <FontAwesomeIcon icon={faStar} style={{"cursor": "pointer"}} onClick={() => closeModal()} />
+                    <FontAwesomeIcon icon={faStar} style={{"cursor": "pointer"}} onClick={() => this.closeModal()} />
                 </Col>
             </Row>
             <Row>
