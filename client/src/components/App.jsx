@@ -20,8 +20,7 @@ class App extends React.Component {
             total: 0,
             overallRating: 0,
             breakdowns: []
-        },
-        reviews: []
+        }
     }
 
     //bind functions here
@@ -70,13 +69,22 @@ class App extends React.Component {
     if (!review.myLike) {
         review.myLike = 1;
         review.likes++;
-        let reviews = this.state.reviews.splice(0);
-        let pos = reviews.findIndex(r => {
-            return r._id === review._id;
-        });
-        this.setState({
-            reviews: reviews.splice(pos, 1, review)
-        });
+        let pages = Object.keys(this.state.reviewsPages);
+        for (page of pages) {
+            let reviews = this.state.reviewsPages[page].splice(0);
+            let pos = reviews.findIndex(r => {
+                return r._id === review._id;
+            });
+            if (-1 !== pos) {
+                this.setState({
+                    reviewsPages: {
+                        ...this.state.reviewsPages,
+                        [page]: reviews.splice(pos, 1, review)
+                    }
+                });
+                break;
+            }
+        }
         await axios.post("/api/reviewlike/" + String(review._id));
     }
   }
@@ -85,26 +93,44 @@ class App extends React.Component {
     if (!review.myLike) {
         review.myLike = -1;
         review.dislikes++;
-        let reviews = this.state.reviews.splice(0);
-        let pos = reviews.findIndex(r => {
-            return r._id === review._id;
-        });
-        this.setState({
-            reviews: reviews.splice(pos, 1, review)
-        });
+        let pages = Object.keys(this.state.reviewsPages);
+        for (page of pages) {
+            let reviews = this.state.reviewsPages[page].splice(0);
+            let pos = reviews.findIndex(r => {
+                return r._id === review._id;
+            });
+            if (-1 !== pos) {
+                this.setState({
+                    reviewsPages: {
+                        ...this.state.reviewsPages,
+                        [page]: reviews.splice(pos, 1, review)
+                    }
+                });
+                break;
+            }
+        }
         await axios.post("/api/reviewdislike/" + String(review._id));
     }
   }
 
   async flagReview(review) {
     review.flagged = true;
-    let reviews = this.state.reviews.splice(0);
-    let pos = reviews.findIndex(r => {
-        return r._id === review._id;
-    });
-    this.setState({
-        reviews: reviews.splice(pos, 1, review)
-    });
+    let pages = Object.keys(this.state.reviewsPages);
+    for (page of pages) {
+        let reviews = this.state.reviewsPages[page].splice(0);
+        let pos = reviews.findIndex(r => {
+            return r._id === review._id;
+        });
+        if (-1 !== pos) {
+            this.setState({
+                reviewsPages: {
+                    ...this.state.reviewsPages,
+                    [page]: reviews.splice(pos, 1, review)
+                }
+            });
+            break;
+        }
+    }
     // TODO:  Save
   }
 
@@ -140,7 +166,14 @@ class App extends React.Component {
     return axios.post("/api/reviews/" + String(this.productid), review)
     .then(response => {
         console.log(response);
-        // TODO
+        let reviews = [response.data.review].concat(this.state.reviewsPages["0"]);
+        console.log("Setting reviews", reviews);
+        this.setState({
+            reviewsPages: {
+                ...this.state.reviewsPages,
+                ["0"]: reviews
+            }
+        });
     });
   }
 

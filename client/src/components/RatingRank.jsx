@@ -49,7 +49,16 @@ class RatingRank extends React.Component {
   formatRating(val) {
     return new Intl.NumberFormat('en-US', {
         style: 'decimal',
-        minimumFractionDigits: 1
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+    }).format(val);
+  }
+
+  formatPct(val) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 1
     }).format(val);
   }
 
@@ -107,7 +116,7 @@ class RatingRank extends React.Component {
                         <RectangleBackground>
                             <span style={{width: String(breakdown.pct) + '%'}}>&nbsp;</span>
                         </RectangleBackground>
-                        <span style={{width: "30px"}}>{breakdown.pct}%</span>
+                        <span style={{width: "30px"}}> {this.formatPct(breakdown.pct)}%</span>
                     </div>
                 );
             })}

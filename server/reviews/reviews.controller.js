@@ -80,7 +80,8 @@ exports.getRankings = async (req, res, next) => {
 
 exports.create = async (req, res, next) =>{
   let reviews_body = req.body;
-  reviews_body.product = {_id: ObjectID(req.params.productid)};
+  reviews_body.date = new Date();
+  reviews_body.product_id = ObjectID(req.params.productid);
   try {
       let saved = await Reviews.model.create(reviews_body);
       if (!saved) {
@@ -88,7 +89,7 @@ exports.create = async (req, res, next) =>{
             message: "Unable to save"
         };
       }
-      res.status(201).json({message: "Review successfully saved"});
+      res.status(201).json({message: "Review successfully saved", review: saved});
   } catch (e) {
       console.log("Error saving review", e);
       return res.status(400).json({message: 'unable to save reviews try again'});

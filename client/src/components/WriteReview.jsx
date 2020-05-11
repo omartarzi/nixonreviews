@@ -106,8 +106,8 @@ class WriteReview extends React.Component {
             </Row>
             <Row>
                 <Col sm={12}>
-                    <textarea rows="5" style={{"width": "100%"}} onChange={(e) => this.handleChange(e, 'content')}>
-                        {this.state.review.content}
+                    <textarea rows="5" style={{"width": "100%"}} onChange={(e) => this.handleChange(e, 'body')}>
+                        {this.state.review.body}
                     </textarea>
                     <span><FontAwesomeIcon icon={faInfoCircle} /> Make your review great: Describe what you liked, what you didn't like, and other key things shoppers should know (minimum 5 characters)</span>
                 </Col>
