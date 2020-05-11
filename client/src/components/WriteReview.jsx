@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-grid-system';
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'; //close icon, info
+import { faStar, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'; //close icon, info
 
 class WriteReview extends React.Component {
   constructor(props) {

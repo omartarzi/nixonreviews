@@ -4,11 +4,19 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const router = require('router');
+const router = require('./router');
 //const Reviews = require('../database/reviews.model.js');
 
 const app = express();
 const port = 1738;
+
+const mongodbUrl = 'mongodb://localhost:27017/nixon';
+var dbOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    connectTimeoutMS: 60000,
+    socketTimeoutMS: 60000
+};
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -30,5 +38,28 @@ app.get('/api/:product_serial', function(req,res){
   });
 });
 */
+
+mongoose.connection.on('error', function(err) {
+  console.error('MongoDB connection error. Please make sure MongoDB is running. -> ' + err);
+});
+
+mongoose.connection.on('disconnected', function() {
+  console.error('MongoDB connection disconnected.')
+});
+
+mongoose.connection.on('reconnected', function() {
+  console.error('MongoDB connection reconnected.')
+});
+
+var connectWithRetry = function() {
+  return mongoose.connect(mongodbUrl, dbOptions, function(err) {
+    if (err) {
+      console.error('Failed to connect to mongo on startup - retrying in 5 sec. -> ' + err);
+      setTimeout(connectWithRetry, 5000);
+    }
+  });
+};
+
+connectWithRetry();
 
 app.listen(port, () => console.log(`listening on port ${port}`))

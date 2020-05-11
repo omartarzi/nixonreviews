@@ -38,7 +38,7 @@ class App extends React.Component {
   }
 
   async getProduct() {
-    return axios.get("/product/" + String(this.productid))
+    return axios.get("/api/product/" + String(this.productid))
     .then(response => {
         this.setState({
             product: response.data.product
@@ -50,7 +50,7 @@ class App extends React.Component {
   }
 
   async getRankings() {
-    return axios.get("/rankings/" + String(this.productid))
+    return axios.get("/api/rankings/" + String(this.productid))
     .then(response => {
         this.setState({
             totalReviews: response.data.total,
@@ -73,7 +73,7 @@ class App extends React.Component {
         this.setState({
             reviews: reviews.splice(pos, 1, review)
         });
-        await axios.post("/reviewlike/" + String(review._id));
+        await axios.post("/api/reviewlike/" + String(review._id));
     }
   }
 
@@ -88,7 +88,7 @@ class App extends React.Component {
         this.setState({
             reviews: reviews.splice(pos, 1, review)
         });
-        await axios.post("/reviewdislike/" + String(review._id));
+        await axios.post("/api/reviewdislike/" + String(review._id));
     }
   }
 
@@ -105,7 +105,7 @@ class App extends React.Component {
   }
 
   async nextPage(page) {
-    return axios.get("/reviews/" + String(this.state.productid), {
+    return axios.get("/api/reviews/" + String(this.state.productid), {
         params: {
             page: page
         }

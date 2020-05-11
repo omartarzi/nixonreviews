@@ -1,6 +1,5 @@
-const database = require('./index.js')
 const ObjectID = require('mongodb').ObjectID;
-import Reviews from "./reviews.model.js";
+const Reviews = require("./reviews.model.js");
 
 exports.getAll = async (req, res, next) => {
     const pageSize = 10;
@@ -26,6 +25,7 @@ exports.getAll = async (req, res, next) => {
 }
 
 exports.getRankings = async (req, res, next) => {
+    console.log("In get rankings");
     try {
         let rankings = await Reviews.model.aggregate([
             {

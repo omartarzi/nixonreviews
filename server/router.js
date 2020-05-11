@@ -1,6 +1,6 @@
 const router = require('express').Router();
-import reviews from "./reviews/reviews.controller";
-import reviews from "./products/products.controller";
+const reviews = require("./reviews/reviews.controller");
+const products = require("./products/products.controller");
 
 router
   .route('/reviews/:productid')
@@ -24,7 +24,7 @@ router
   ;
 
 router
-  .route('/products/:id')
+  .route('/product/:id')
   .get(products.get)
   ;
 
