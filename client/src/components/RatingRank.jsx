@@ -134,6 +134,9 @@ class RatingRank extends React.Component {
                 </div>
             </Col>
             <Col sm={4}>
+                <div style={{"textAlign": "center", "marginBottom": "12px", "fontSize": "16px", "fontWeight": "bold"}}>
+                    <div>{this.props.rankings.total} Ratings</div>
+                </div>
                 <div style={{"textAlign": "left"}}>
                     {this.props.rankings.breakdowns.map(breakdown => {
                         return (
