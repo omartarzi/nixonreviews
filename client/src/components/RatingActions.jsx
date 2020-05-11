@@ -34,19 +34,18 @@ class RatingActions extends React.Component {
             <Row>
                 <Col sm={6}>
                     Was this helpful?
-                    <FontAwesomeIcon icon={faHeart}
-                        className={"liked": (this.props.review.myLike > 0)}
-                        onClick={this.props.toggleLike} />
+                    <span className={{"liked": (this.props.review.myLike > 0)}}><FontAwesomeIcon icon={faHeart}
+                        onClick={this.props.toggleLike} /></span>
                     {(this.props.review.likes > 0) ? this.props.review.likes : ''}
-                    <FontAwesomeIcon icon={faHeart}
-                        className={"disliked": (this.props.review.myLike > 0)}
-                        onClick={this.props.toggleDislike} />
+                    <span className={{"disliked": (this.props.review.myLike > 0)}}><FontAwesomeIcon icon={faHeart}
+                        onClick={this.props.toggleDislike} /></span>
                     {(this.props.review.dislikes > 0) ? this.props.review.dislikes : ''}
                 </Col>
                 <Col sm={6} style={{"textAlign": "right"}}>
-                    <FontAwesomeIcon icon={faFlag}
-                        className={"flagged": this.props.review.flagged}
-                        onClick={this.props.flagReview} /> Flag
+                    <span className={{"flagged": this.props.review.flagged}}>
+                        <FontAwesomeIcon icon={faFlag}
+                            onClick={this.props.flagReview} />
+                    </span> Flag
                 </Col>
             </Row>
           </Container>

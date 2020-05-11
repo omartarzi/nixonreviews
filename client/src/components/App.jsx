@@ -3,13 +3,14 @@ import React from 'react';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroller';
 import RatingRank from './RatingRank.jsx';
-import RatingReview from './RatingRank.jsx';
-import RatingActions from './RatingRank.jsx';
+import RatingReview from './RatingReview.jsx';
+import RatingActions from './RatingActions.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.productid = 0;
+    this.currentPage = 0;
     this.state = {
         hasMoreReviews: false,
         reviewsPages: {},
@@ -35,6 +36,7 @@ class App extends React.Component {
     this.productid = "5eb8efe3fd30ab0361b2f408";
     await this.getProduct();
     await this.getRankings();
+    await this.nextPage(0);
   }
 
   async getProduct() {
@@ -106,7 +108,9 @@ class App extends React.Component {
   }
 
   async nextPage(page) {
-    return axios.get("/api/reviews/" + String(this.state.productid), {
+    console.log("Getting page", page);
+    this.currentPage = page + 1;
+    return axios.get("/api/reviews/" + String(this.productid), {
         params: {
             page: page
         }
@@ -146,13 +150,13 @@ class App extends React.Component {
             pageStart={0}
             loadMore={this.nextPage}
             hasMore={this.state.hasMoreReviews}
-            loader={<div className="loader" key={0}>Loading ...</div>}
+            loader={<div className="loader" key={this.currentPage}>Loading ...</div>}
         >
             {Object.keys(this.state.reviewsPages).map(pageNum => {
                 return (
                     this.state.reviewsPages[pageNum].map(review => {
                         return (
-                            <>
+                            <div key={review._id}>
                                 <RatingReview review="review"></RatingReview>
                                 <br/>
                                 <RatingActions review="review"
@@ -160,7 +164,7 @@ class App extends React.Component {
                                     toggleDislike={() => this.toggleDislike(review)}
                                     flagReview={() => this.flagReview(review)}
                                     ></RatingActions>
-                            </>
+                            </div>
                         );
                     })
                 );

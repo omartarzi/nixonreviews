@@ -99,7 +99,7 @@ class RatingRank extends React.Component {
                     <div style={{"textAlign": "center"}}>{this.props.rankings.total} Ratings</div>
                     {this.props.rankings.breakdowns.map(breakdown => {
                         return (
-                            <div>
+                            <div key={breakdown.level}>
                                 <FontAwesomeIcon icon={faStar} />
                                 <span style={{width: "20px", "textAlign": "center"}}>{breakdown.level}</span>
                                 <RectangleBackground>
