@@ -53,11 +53,13 @@ exports.getRankings = async (req, res, next) => {
             return b.level - a.level;
         });
         res.json({
-            total: total,
-            overallRating: (rankings.reduce((total, ranking) => {
-                return total + (ranking.level * ranking.count);
-            }, 0) / total),
-            breakdown: rankings
+            rankings: {
+                total: total,
+                overallRating: (rankings.reduce((total, ranking) => {
+                    return total + (ranking.level * ranking.count);
+                }, 0) / total),
+                breakdowns: rankings
+            }
         });
     } catch (e) {
         console.log("Database error getting rankings", e);

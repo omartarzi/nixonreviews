@@ -54,7 +54,7 @@ class App extends React.Component {
     .then(response => {
         console.log("Got rankings", response.data);
         this.setState({
-            totalReviews: response.data.total,
+            totalReviews: response.data.rankings.total,
             rankings: response.data.rankings
         });
     })

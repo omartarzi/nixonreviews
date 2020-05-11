@@ -50,7 +50,7 @@ class RatingRank extends React.Component {
   }
 
   render() {
-    console.log("In RatingRank render");
+    console.log("In RatingRank render", this.props);
     return (
         <Container>
             <Row>
@@ -59,7 +59,7 @@ class RatingRank extends React.Component {
                         <div className="overallRating">
                             <div>{this.formatRating(this.props.rankings.overallRating)}</div>
                             <StarRatings
-                                rating={this.props.rankings.overallRating}
+                                rating={this.props.rankings.overallRating || 0}
                                 starDimension="40px"
                                 starSpacing="15px"
                             />
