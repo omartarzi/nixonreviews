@@ -52,6 +52,7 @@ class App extends React.Component {
   async getRankings() {
     return axios.get("/api/rankings/" + String(this.productid))
     .then(response => {
+        console.log("Got rankings", response.data);
         this.setState({
             totalReviews: response.data.total,
             rankings: response.data.rankings

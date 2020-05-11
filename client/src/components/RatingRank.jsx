@@ -50,6 +50,7 @@ class RatingRank extends React.Component {
   }
 
   render() {
+    console.log("In RatingRank render");
     return (
         <Container>
             <Row>
