@@ -24,6 +24,11 @@ router
   ;
 
 router
+  .route('/product/')
+  .get(products.getAll)
+  ;
+
+router
   .route('/product/:id')
   .get(products.get)
   ;

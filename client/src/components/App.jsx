@@ -32,7 +32,7 @@ class App extends React.Component {
     // ideally this ID will come from the current route,
     // e.g. if your route is /review/:id
     // Then you get the parameter like this:  this.props.match.params.id
-    this.productid = 1;
+    this.productid = "";
     await this.getProduct();
     await this.getRankings();
   }

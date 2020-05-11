@@ -4,7 +4,7 @@ const Reviews = require("./reviews.model.js");
 exports.getAll = async (req, res, next) => {
     const pageSize = 10;
     try {
-        const total = await Reviews.model.count({product_serial: req.params.productid});
+        const total = await Reviews.model.count({product._id: req.params.productid});
         const reviews = await Reviews.model.find({}, {
             limit: pageSize,
             skip: parseInt(req.query.page || 0) * 10
@@ -30,7 +30,7 @@ exports.getRankings = async (req, res, next) => {
         let rankings = await Reviews.model.aggregate([
             {
                 $match: {
-                    product_serial: req.params.productid
+                    product._id: req.params.productid
                 }
             },
             {
@@ -69,7 +69,7 @@ exports.getRankings = async (req, res, next) => {
 
 exports.create = async (req, res, next) =>{
   let reviews_body = req.body;
-  reviews_body.product_serial = req.params.productid;
+  reviews_body.product = {_id: req.params.productid};
   try {
       let saved = await Reviews.model.create(reviews_body);
       if (!saved) {
