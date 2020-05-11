@@ -157,9 +157,9 @@ class App extends React.Component {
                     this.state.reviewsPages[pageNum].map(review => {
                         return (
                             <div key={review._id}>
-                                <RatingReview review="review"></RatingReview>
+                                <RatingReview review={review}></RatingReview>
                                 <br/>
-                                <RatingActions review="review"
+                                <RatingActions review={review}
                                     toggleLike={() => this.toggleLike(review)}
                                     toggleDislike={() => this.toggleDislike(review)}
                                     flagReview={() => this.flagReview(review)}

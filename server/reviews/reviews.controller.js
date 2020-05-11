@@ -97,13 +97,14 @@ exports.create = async (req, res, next) =>{
 
 exports.like = async (req, res, next) => {
     try {
-        let review = await Reviews.model.find({
+        let review = await Reviews.model.findOne({
             _id: ObjectID(req.params.id)
         });
         review.likes++;
-        await Reviews.model.update({_id: ObjectID(req.params.id)}, {
+        let result = await Reviews.model.update({_id: ObjectID(req.params.id)}, {
             likes: review.likes
         });
+        console.log(result);
         res.json({success: true});
     } catch (e) {
         console.log("Database error liking review!", e);
@@ -113,7 +114,7 @@ exports.like = async (req, res, next) => {
 
 exports.dislike = async (req, res, next) => {
     try {
-        let review = await Reviews.model.find({
+        let review = await Reviews.model.findOne({
             _id: ObjectID(req.params.id)
         });
         review.dislikes++;

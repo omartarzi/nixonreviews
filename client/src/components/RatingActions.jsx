@@ -33,19 +33,23 @@ class RatingActions extends React.Component {
           <Container>
             <Row>
                 <Col sm={6}>
-                    Was this helpful?
-                    <span className={{"liked": (this.props.review.myLike > 0)}}><FontAwesomeIcon icon={faHeart}
-                        onClick={this.props.toggleLike} /></span>
-                    {(this.props.review.likes > 0) ? this.props.review.likes : ''}
-                    <span className={{"disliked": (this.props.review.myLike > 0)}}><FontAwesomeIcon icon={faHeart}
-                        onClick={this.props.toggleDislike} /></span>
-                    {(this.props.review.dislikes > 0) ? this.props.review.dislikes : ''}
+                    <div>
+                        Was this helpful?
+                        <span className={{"clickable": true, "liked": (this.props.review.myLike > 0)}}><FontAwesomeIcon icon={faHeart}
+                            onClick={this.props.toggleLike} /></span>
+                        {(this.props.review.likes > 0) ? this.props.review.likes : ''}
+                        <span className={{"clickable": true, "disliked": (this.props.review.myLike > 0)}}><FontAwesomeIcon icon={faHeart}
+                            onClick={this.props.toggleDislike} /></span>
+                        {(this.props.review.dislikes > 0) ? this.props.review.dislikes : ''}
+                    </div>
                 </Col>
                 <Col sm={6} style={{"textAlign": "right"}}>
-                    <span className={{"flagged": this.props.review.flagged}}>
-                        <FontAwesomeIcon icon={faFlag}
-                            onClick={this.props.flagReview} />
-                    </span> Flag
+                    <div>
+                        <span className={{"flagged": this.props.review.flagged}}>
+                            <FontAwesomeIcon icon={faFlag}
+                                onClick={this.props.flagReview} />
+                        </span> Flag
+                    </div>
                 </Col>
             </Row>
           </Container>

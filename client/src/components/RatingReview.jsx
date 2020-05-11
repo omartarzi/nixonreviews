@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-grid-system';
+import StarRatings from 'react-star-ratings';
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment-timezone';
@@ -25,25 +26,30 @@ class RatingReview extends React.Component {
   }
 
   render() {
+    console.log("Rendering review", this.props.review);
     return (
-        <div className="reviewBar">
-            <Container>
-                <Row>
-                    <Col sm={3}>
-                        <div className="userRating"><StarRatingsSprite><span style={{width: String(this.props.review.rating * 100 / 5) + '%'}}></span></StarRatingsSprite></div>
-                        <div className="date"><Moment format="MMM Do, YYYY" date="{this.props.review.date}"></Moment></div>
-                        <div className="userName">{this.props.review.name}</div>
-                    </Col>
-                    <Col sm={6}>
-                        <div className="reviewTitle">{this.props.review.title}</div>
-                        <div className="reviewBody">{this.props.review.body}</div>
-                    </Col>
-                    <Col sm={3}>
-                        <div className="styleChoice"> Watch Style </div>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+        <Container className="reviewBar">
+            <Row style={{width: "100%"}}>
+                <Col sm={3}>
+                    <div className="userRating">
+                        <StarRatings
+                            rating={this.props.review.rating || 0}
+                            starDimension="24px"
+                            starSpacing="4px"
+                        />
+                    </div>
+                    <div className="date"><Moment format="MMM Do, YYYY" date="{this.props.review.date}"></Moment></div>
+                    <div className="userName">{this.props.review.name}</div>
+                </Col>
+                <Col sm={6}>
+                    <div className="reviewTitle">{this.props.review.title}</div>
+                    <div className="reviewBody">{this.props.review.body}</div>
+                </Col>
+                <Col sm={3}>
+                    <div className="styleChoice"> Watch Style </div>
+                </Col>
+            </Row>
+        </Container>
     );
   }
 }
