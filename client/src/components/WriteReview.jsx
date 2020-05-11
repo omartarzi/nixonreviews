@@ -132,10 +132,10 @@ class WriteReview extends React.Component {
             <Row style={{"marginTop": "8px"}}>
                 <Col sm={12}>
                     <div>
-                        <button type="button" className="btn" onClick={this.handleUploadImage}>
+                        <button type="button" className="outlineButton" onClick={this.handleUploadImage}>
                             Add Photo
                         </button>
-                        <button type="button" className="btn" onClick={this.handleUploadVideo}>
+                        <button type="button" className="outlineButton" onClick={this.handleUploadVideo}>
                             Add Video
                         </button>
                     </div>

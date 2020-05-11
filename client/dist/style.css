@@ -45,6 +45,20 @@ hr.blackLine {
   width: 130px;
 }
 
+.outlineButton {
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  margin: 4px 2px;
+  cursor: pointer;
+  height: 32px;
+  width: 130px;
+}
+
 .ratingBar {
   display: flex;
   justify-content: space-between;
