@@ -70,16 +70,19 @@ class App extends React.Component {
         review.myLike = 1;
         review.likes++;
         let pages = Object.keys(this.state.reviewsPages);
-        for (page of pages) {
-            let reviews = this.state.reviewsPages[page].splice(0);
+        for (let page of pages) {
+            let reviews = this.state.reviewsPages[page];
+            console.log("Existing reviews", reviews);
             let pos = reviews.findIndex(r => {
                 return r._id === review._id;
             });
             if (-1 !== pos) {
+                reviews.splice(pos, 1, review);
+                console.log("Subbed review", reviews);
                 this.setState({
                     reviewsPages: {
                         ...this.state.reviewsPages,
-                        [page]: reviews.splice(pos, 1, review)
+                        [page]: reviews
                     }
                 });
                 break;
@@ -94,16 +97,17 @@ class App extends React.Component {
         review.myLike = -1;
         review.dislikes++;
         let pages = Object.keys(this.state.reviewsPages);
-        for (page of pages) {
-            let reviews = this.state.reviewsPages[page].splice(0);
+        for (let page of pages) {
+            let reviews = this.state.reviewsPages[page];
             let pos = reviews.findIndex(r => {
                 return r._id === review._id;
             });
             if (-1 !== pos) {
+                reviews.splice(pos, 1, review);
                 this.setState({
                     reviewsPages: {
                         ...this.state.reviewsPages,
-                        [page]: reviews.splice(pos, 1, review)
+                        [page]: reviews
                     }
                 });
                 break;
@@ -116,16 +120,17 @@ class App extends React.Component {
   async flagReview(review) {
     review.flagged = true;
     let pages = Object.keys(this.state.reviewsPages);
-    for (page of pages) {
-        let reviews = this.state.reviewsPages[page].splice(0);
+    for (let page of pages) {
+        let reviews = this.state.reviewsPages[page];
         let pos = reviews.findIndex(r => {
             return r._id === review._id;
         });
         if (-1 !== pos) {
+            reviews.splice(pos, 1, review);
             this.setState({
                 reviewsPages: {
                     ...this.state.reviewsPages,
-                    [page]: reviews.splice(pos, 1, review)
+                    [page]: reviews
                 }
             });
             break;

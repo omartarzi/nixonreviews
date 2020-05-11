@@ -119,7 +119,7 @@ exports.dislike = async (req, res, next) => {
             _id: ObjectID(req.params.id)
         });
         review.dislikes++;
-        await Reviews.update({_id: ObjectID(req.params.id)}, {
+        await Reviews.model.update({_id: ObjectID(req.params.id)}, {
             dislikes: review.dislikes
         });
         res.json({success: true});
