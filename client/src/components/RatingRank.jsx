@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
 import StarRatings from 'react-star-ratings';
 import { Container, Row, Col } from 'react-grid-system';
+import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faStar } from '@fortawesome/free-solid-svg-icons'; //solid heart, solid star
 //import { fasHeart } from '@fortawesome/free-regular-core-icons';
@@ -15,6 +16,17 @@ import WriteReview from './WriteReview.jsx';
   <FontAwesomeIcon icon={faHeart}/>
   <FontAwesomeIcon icon={faFlag}/>
 */
+
+const RectangleBackground = styled.div`
+    display: inline-block;
+    width: 80%;
+    height: 24px;
+    background-color: #999999;
+
+    span {
+        background-color: #000000;
+    }
+`;
 
 ReactModal.setAppElement('#app');
 
